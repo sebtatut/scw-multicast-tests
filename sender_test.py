@@ -28,6 +28,8 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--interface", required=True)
     parser.add_argument("--ip", required=True)
+    parser.add_argument("--mcast_ip", required=True)
+    parser.add_argument("--mcast_port", required=True)
     parser.add_argument("--pcap", required=True)
     parser.add_argument("--duration", type=int, required=True)
     args = parser.parse_args()

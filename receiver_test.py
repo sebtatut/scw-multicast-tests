@@ -25,7 +25,7 @@ def run_tcpdump_udp(interface: str, mcast_ip: str, mcast_port: str, out_file: st
         "-w", out_file
     ], preexec_fn=os.setsid)
 
-def run_tsp(ip: str, log_file: str, mcast_ip: str, mcast_port: str) -> Popen[bytes]:
+def run_tsp(ip: str, mcast_ip: str, mcast_port: str, log_file: str) -> Popen[bytes]:
     f: TextIO = open(log_file, "w")
     return subprocess.Popen([
         "tsp", "-v", "-I", "ip", mcast_ip + ":" + mcast_port, "--local-address", ip,
@@ -49,9 +49,9 @@ def main() -> None:
     procs.append(run_smcrouted(args.smcrouted_log))
     time.sleep(2)
     procs.append(run_tcpdump_igmp(args.interface, args.igmp_log))
-    procs.append(run_tcpdump_udp(args.interface, args.pcap, args.mcast_ip, args.mcast_port))
+    procs.append(run_tcpdump_udp(args.interface, args.mcast_ip, args.mcast_port, args.pcap))
     time.sleep(1)
-    procs.append(run_tsp(args.ip, args.tsp_log, args.mcast_ip, args.mcast_port))
+    procs.append(run_tsp(args.ip, args.mcast_ip, args.mcast_port, args.tsp_log))
 
     time.sleep(args.duration)
     for proc in procs:
